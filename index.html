@@ -1,0 +1,568 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Powering the Future | Electricity Generation</title>
+  <meta
+    name="description"
+    content="An interactive exploration of the world's electricity mix and Malaysia's energy transition."
+  >
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Vega and Vega-Lite visualisation libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+</head>
+
+<body>
+  <header class="hero">
+    <nav class="nav">
+      <span class="brand">FIELDNOTES / ENERGY</span>
+      <span class="nav-links"><a href="#s-global">Global</a><a href="#s-world">Maps</a><a href="#s-malaysia">Malaysia</a><a href="#s-time">Over time</a><a href="#s-tiles">Compare</a></span>
+    </nav>
+
+    <div class="hero-content">
+      <p class="eyebrow">ELECTRICITY GENERATION</p>
+
+      <h1>
+        Powering the future<br>
+        <em>without the smoke?</em>
+      </h1>
+
+      <p class="intro">
+        The world needs more electricity every year. The question is whether
+        cleaner sources are growing quickly enough to change how we power
+        our lives - and where Malaysia fits into that shift.
+      </p>
+
+      <p class="byline">By Hadi &middot; FIT3179 Data Visualisation 2 &middot; Monash University &middot; October 2026</p>
+
+      <div class="hero-meta">
+        <span>01 / GLOBAL PICTURE</span>
+        <span>02 / THE LONG VIEW</span>
+        <span>03 / MALAYSIA</span>
+        <span>04 / REARRANGING THE MAP</span>
+      </div>
+
+      <div class="kpis" aria-label="Malaysia in 2024"><div class="kpi"><span class="kpi-label">MALAYSIA GENERATED, 2024</span><strong id="kpi-total">–</strong><span class="kpi-sub" id="kpi-total-sub"></span></div><div class="kpi"><span class="kpi-label">FROM COAL</span><strong id="kpi-coal">–</strong><span class="kpi-sub" id="kpi-coal-sub"></span></div><div class="kpi"><span class="kpi-label">FROM GAS</span><strong id="kpi-gas">–</strong><span class="kpi-sub" id="kpi-gas-sub"></span></div><div class="kpi"><span class="kpi-label">FROM RENEWABLES</span><strong id="kpi-clean">–</strong><span class="kpi-sub" id="kpi-clean-sub"></span></div></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- SECTION 01: GLOBAL PICTURE -->
+    <section class="section-heading" id="s-global">
+      <p class="eyebrow">01 — THE GLOBAL PICTURE</p>
+
+      <h2>
+        Demand keeps growing.<br>
+        <em>What fills the grid?</em>
+      </h2>
+
+      <p class="section-intro">
+        Electricity sources do not all play the same role. Fossil fuels still
+        provide dispatchable power, while renewables are changing the
+        generation mix. These views separate the scale of generation from
+        the share of the mix.
+      </p>
+    </section>
+
+    <section class="chart-grid">
+      <article class="chart-card wide">
+        <div class="chart-top">
+          <span class="chart-number">FIG. 01</span>
+          <span class="chart-type">STACKED AREA · TWh</span>
+        </div>
+
+        <h3>The world's electricity mix is expanding</h3>
+
+        <p class="chart-desc">
+          Annual electricity generation by major source. The height shows
+          total output; each band shows a source's contribution.
+        </p>
+
+        <div id="global-area" class="chart"></div>
+
+        <p class="takeaway">
+          Read the total height as the size of the system, not just the rise
+          of any one source.
+        </p>
+      </article>
+
+      <article class="chart-card">
+        <div class="chart-top">
+          <span class="chart-number">FIG. 02</span>
+          <span class="chart-type">LINE · SHARE (%)</span>
+        </div>
+
+        <h3>Cleaner power is gaining ground</h3>
+
+        <p class="chart-desc">
+          How the global shares of fossil, renewable and other clean
+          generation have changed over time.
+        </p>
+
+        <div id="global-shares" class="chart"></div>
+      </article>
+
+      <article class="chart-card">
+        <div class="chart-top">
+          <span class="chart-number">FIG. 03</span>
+          <span class="chart-type">RANKED BARS · TWh</span>
+        </div>
+
+        <h3>Where is the most electricity generated?</h3>
+
+        <p class="chart-desc">
+          The ten largest country-level electricity generators in the latest
+          year available in the dataset.
+        </p>
+
+        <div id="top-countries" class="chart"></div>
+      </article>
+    </section>
+
+    <!-- SECTION 02: GEOGRAPHY OF POWER -->
+    <section class="section-heading" id="s-world">
+      <p class="eyebrow">02 — THE LONG VIEW</p>
+
+      <h2>
+        Energy transitions<br>
+        <em>are not evenly distributed.</em>
+      </h2>
+
+      <p class="section-intro">
+        These maps compare countries using two different visual encodings.
+        The choropleth uses colour to show renewable share; the
+        proportional-symbol map uses circle area to show total electricity
+        generation. Use the year sliders to see how the picture changed since 2000.
+      </p>
+    </section>
+
+    <section class="chart-grid">
+      <article class="chart-card wide">
+        <div class="chart-top">
+          <span class="chart-number">FIG. 04</span>
+          <span class="chart-type">CHOROPLETH MAP · %</span>
+        </div>
+
+        <h3 id="map-title">Which countries get the most electricity from renewables?</h3>
+
+        <p class="chart-desc">
+          Countries are shaded by the chosen source's share of electricity generation. Use the time machine at the bottom of the screen to change the year or the source, and click any country to open it in the explorer below. Grey means no data.
+        </p>
+
+        <div id="renewables-map" class="chart map-chart"></div>
+
+        <p class="takeaway">
+          A share compares the mix within each country; it does not tell you
+          which country generates the most renewable electricity.
+        </p>
+      </article>
+
+      <article class="chart-card wide">
+        <div class="chart-top">
+          <span class="chart-number">FIG. 05</span>
+          <span class="chart-type">PROPORTIONAL SYMBOL MAP · TWh</span>
+        </div>
+
+        <h3>The biggest grids dominate total output</h3>
+
+        <p class="chart-desc">
+          Circle area is total generation; colour is the chosen source's share. It follows the time machine at the bottom.
+          Larger circles indicate more generation, not higher renewable use.
+        </p>
+
+        <div id="generation-bubble-map" class="chart map-chart"></div>
+      </article>
+      <article class="chart-card wide">
+        <div class="chart-top"><span class="chart-number">FIG. 06</span><span class="chart-type">COUNTRY EXPLORER · STACKED AREA</span></div>
+        <h3>Compare any country with Malaysia</h3>
+        <p class="chart-desc">Click a country on the choropleth above, or choose one here. Each chart shows that country's electricity mix from 2000 to 2024, with every year adding up to 100%.</p>
+        <div class="controls"><label>Compare Malaysia with <select id="country-pick"></select></label></div>
+        <div id="country-explorer" class="chart"></div>
+        <p class="takeaway" id="take-explorer"></p>
+      </article>
+    </section>
+
+    <!-- SECTION 03: MALAYSIA -->
+    <section class="section-heading malaysia-heading" id="s-malaysia">
+      <p class="eyebrow">03 — A CLOSER LOOK INTO MALAYSIA</p>
+
+      <h2>
+        Malaysia's mix,<br>
+        <em>under the microscope.</em>
+      </h2>
+
+      <p class="section-intro">
+        A global transition can hide very different national stories. These
+        charts focus on Malaysia's generation sources and the longer-term
+        change in its clean electricity share.
+      </p>
+    </section>
+
+    <section class="chart-grid">
+      <!-- Malaysia power-station map -->
+      <article class="chart-card wide">
+        <div class="chart-top">
+          <span class="chart-number">MALAYSIA MAP</span>
+          <span class="chart-type">POWER STATIONS · FUEL TYPE</span>
+        </div>
+
+        <h3>Where are Malaysia's major power stations?</h3>
+
+        <p class="chart-desc">
+          Selected major stations across Peninsular Malaysia, Sabah and
+          Sarawak. Hover over a marker to see its name and technology.
+          Marker positions are approximate; this is not a complete inventory.
+        </p>
+
+        <div id="malaysia-power-map" class="chart map-chart"></div>
+
+        <p class="takeaway">
+          The map shows where selected generation infrastructure is located;
+          the charts below show how much electricity each source produces
+          nationally.
+        </p>
+      </article>
+
+      <!-- Malaysia generation mix -->
+      <article class="chart-card">
+        <div class="chart-top">
+          <span class="chart-number">FIG. 07</span>
+          <span class="chart-type">BAR · TWh · YEAR SLIDER</span>
+        </div>
+
+        <h3>What powers Malaysia?</h3>
+
+        <p class="chart-desc">
+          Drag the year slider to see how each source's output changed. Hover over a bar for the exact value.
+        </p>
+
+        <div id="malaysia-mix" class="chart"></div>
+      </article>
+
+      <!-- Malaysia clean share over time -->
+      <article class="chart-card">
+        <div class="chart-top">
+          <span class="chart-number">FIG. 08</span>
+          <span class="chart-type">LINE · SHARE (%)</span>
+        </div>
+
+        <h3>Has Malaysia's clean share changed?</h3>
+
+        <p class="chart-desc">
+          The share of generation classed as clean over time. Clean is the
+          dataset's aggregate category and includes renewables and nuclear.
+        </p>
+
+        <div id="malaysia-clean" class="chart"></div>
+      </article>
+    </section>
+
+    <!-- SECTION 03B: MALAYSIA OVER TIME -->
+    <section class="section-heading" id="s-time">
+      <p class="eyebrow">03 — MALAYSIA OVER TIME</p>
+      <h2>Four decades of power,<br><em>and a coal surge.</em></h2>
+      <p class="section-intro">Malaysia once ran mostly on gas. These views show how coal, hydro and solar changed the mix, and how Malaysia compares with its ASEAN neighbours. Click any legend entry to isolate a source.</p>
+    </section>
+    <section class="chart-grid">
+      <article class="chart-card wide">
+        <div class="chart-top"><span class="chart-number">FIG. 09</span><span class="chart-type">STREAMGRAPH · TWh</span></div>
+        <h3>Malaysia's electricity mix, 1985 to 2024</h3>
+        <p class="chart-desc">Each coloured band is one source. Thicker means more electricity. The bands are centred, so read thickness rather than height.</p>
+        <div id="malaysia-stream" class="chart"></div>
+        <p class="takeaway" id="take-stream"></p>
+      </article>
+      <article class="chart-card">
+        <div class="chart-top"><span class="chart-number">FIG. 10</span><span class="chart-type">DIVERGING BARS · TWh</span></div>
+        <h3>Who added the most power since 2000?</h3>
+        <p class="chart-desc">Change in each source's yearly output between 2000 and 2024.</p>
+        <div id="malaysia-change" class="chart"></div>
+        <p class="takeaway" id="take-change"></p>
+      </article>
+      <article class="chart-card">
+        <div class="chart-top"><span class="chart-number">FIG. 11</span><span class="chart-type">DUMBBELL · SHARE (%)</span></div>
+        <h3>How does Malaysia compare with ASEAN?</h3>
+        <p class="chart-desc">Renewables' share of generation in 2000 (circle) and 2024 (diamond). Countries without data are left out.</p>
+        <div id="asean-dumbbell" class="chart"></div>
+        <p class="takeaway" id="take-asean"></p>
+      </article>
+      <article class="chart-card wide">
+        <div class="chart-top"><span class="chart-number">FIG. 12</span><span class="chart-type">SMALL MULTIPLES · SHARE (%)</span></div>
+        <h3>Each source's share of Malaysia's electricity</h3>
+        <p class="chart-desc">One small chart per source, all on the same 0 to 100% scale so they can be compared directly.</p>
+        <div id="malaysia-multiples" class="chart"></div>
+      </article>
+      <article class="chart-card wide">
+        <div class="chart-top"><span class="chart-number">FIG. 13</span><span class="chart-type">CHOROPLETH + FLOW MAP · ASEAN</span></div>
+        <h3>Southeast Asia: one region, linked grids</h3>
+        <p class="chart-desc">Colour shows the chosen source's share; circles show each linked country's generation. Dashed arcs mark existing cross-border power links (an indicative selection: they show that a link exists, not how much power flows).</p>
+        <div id="asean-map" class="chart map-chart"></div>
+      </article>
+    </section>
+
+    <!-- SECTION 04: CARTOGRAM AND ADDITIONAL COMPARISONS -->
+    <section class="section-heading" id="s-tiles">
+      <p class="eyebrow">04 — REARRANGING THE MAP</p>
+
+      <h2>
+        Clean power has<br>
+        <em>a geography of its own.</em>
+      </h2>
+
+      <p class="section-intro">
+        This tile grid map represents selected countries in approximately their geographic positions, using equal-sized squares for each country. Darker tiles indicate greater clean electricity generation in 2024. It provides a simplified comparison of major contributors rather than showing precise country boundaries or geographic area.
+      </p>
+    </section>
+
+    <section class="chart-grid">
+      <article class="chart-card wide">
+        <div class="chart-top">
+          <span class="chart-number">FIG. 14</span>
+          <span class="chart-type">TILE GRID MAP · TWh</span>
+        </div>
+
+        <h3>Where is clean electricity generated at scale?</h3>
+
+        <p class="chart-desc">
+          Selected countries drawn as equal-sized tiles in roughly their real positions. Darker tiles mean more clean electricity in 2024.
+        </p>
+
+        <div id="clean-cartogram" class="chart map-chart"></div>
+
+        <p class="takeaway">
+          Unlike the choropleth, this view emphasises absolute output rather
+          than each country's renewable share.
+        </p>
+      </article>
+
+      <article class="chart-card wide">
+        <div class="chart-top">
+          <span class="chart-number">FIG. 15</span>
+          <span class="chart-type">HEATMAP · SHARE (%)</span>
+        </div>
+
+        <h3>Countries rely on very different mixes</h3>
+
+        <p class="chart-desc">
+          Selected large electricity systems, compared by the share
+          contributed by each source in 2024. Darker cells indicate a larger
+          share.
+        </p>
+
+        <div id="country-heatmap" class="chart"></div>
+      </article>
+
+      <article class="chart-card">
+        <div class="chart-top">
+          <span class="chart-number">FIG. 16</span>
+          <span class="chart-type">SLOPEGRAPH · SHARE (%)</span>
+        </div>
+
+        <h3>How did the global mix shift?</h3>
+
+        <p class="chart-desc">
+          Fossil and clean generation shares in 2000 versus 2024. The slopes
+          make direction and magnitude easier to compare.
+        </p>
+
+        <div id="global-slope" class="chart"></div>
+      </article>
+
+      <article class="chart-card">
+        <div class="chart-top">
+          <span class="chart-number">FIG. 17</span>
+          <span class="chart-type">BUMP CHART · RANK</span>
+        </div>
+
+        <h3>The leaders don't all move alike</h3>
+
+        <p class="chart-desc">
+          Rank of the eight largest generators across selected years.
+          Rank 1 means the highest total generation in that year.
+        </p>
+
+        <div id="country-bump" class="chart"></div>
+      </article>
+
+      <article class="chart-card wide">
+        <div class="chart-top">
+          <span class="chart-number">FIG. 18</span>
+          <span class="chart-type">100% STACKED BAR · SHARE (%)</span>
+        </div>
+
+        <h3>Malaysia versus the global mix</h3>
+
+        <p class="chart-desc">
+          A source-by-source comparison for 2024. Each bar totals 100%, so
+          compare composition rather than the absolute amount of electricity
+          generated.
+        </p>
+
+        <div id="mix-comparison" class="chart"></div>
+      </article>
+    </section>
+
+    <!-- CONCLUSION AND SOURCES -->
+    <section class="closing">
+      <p class="eyebrow">READING THE DATA</p>
+
+      <h2>A transition is more than a percentage.</h2>
+
+      <p>
+        A source can lose share while still generating more electricity in
+        absolute terms, if total demand grows faster. To understand the
+        transition, compare both generation in TWh and each source's share
+        of the total.
+      </p>
+
+      <p class="source-note">
+        <strong>Data:</strong> Ember, Yearly Electricity Data (electricity
+        statistics); Our World in Data energy dataset for the year-by-year maps; Natural Earth country boundaries for world maps;
+        Malaysia Energy Commission major-power-station maps (2021) for
+        selected Malaysian stations. Station markers are approximate.
+        Tile-map positions are simplified to reduce overlap. Latest year is
+        selected from the data available for each view. Source categories
+        and definitions follow the dataset. This page is an exploratory
+        student visualisation, not an official forecast.
+      </p>
+    </section>
+  </main>
+
+    
+    <section class="closing">
+      <p class="eyebrow">REFERENCES</p>
+
+      <p>
+        This visualisation combines electricity-generation statistics with
+        geographic data to explore changes in the global electricity mix
+        and Malaysia's energy system.
+      </p>
+
+      <h3>1. Electricity generation data</h3>
+      <ul>
+        <li>
+          <strong>Ember.</strong> <em>Yearly Electricity Data.</em>
+          Global and country-level electricity generation statistics,
+          including generation by source and source shares.
+          <a href="https://ember-energy.org/data/yearly-electricity-data/"
+             target="_blank" rel="noopener noreferrer">
+            https://ember-energy.org/data/yearly-electricity-data/
+          </a>
+        </li>
+      </ul>
+
+      <h3>1b. Worldwide country time series (maps)</h3>
+      <ul>
+        <li>
+          <strong>Our World in Data.</strong> <em>Energy dataset</em>
+          (built from Ember and Energy Institute data), licensed CC BY. Used for the
+          year-by-year world and ASEAN maps because it covers every country; Malaysia's rows
+          are replaced with the Ember values used elsewhere on this page so the numbers agree.
+          <a href="https://github.com/owid/energy-data" target="_blank" rel="noopener noreferrer">https://github.com/owid/energy-data</a>
+        </li>
+      </ul>
+
+      <h3>2. Malaysia energy statistics</h3>
+      <ul>
+        <li>
+          <strong>Energy Commission (Suruhanjaya Tenaga), Malaysia.</strong>
+          <em>Performance and Statistical Information on the Electricity
+          Supply Industry in Malaysia.</em>
+          Official electricity-supply industry reports and statistics.
+          <a href="https://www.st.gov.my/resources?resource_child_tid=169&amp;resource_parent_tid=37"
+             target="_blank" rel="noopener noreferrer">
+            Energy Commission — Resources and reports
+          </a>
+        </li>
+      </ul>
+
+      <h3>3. Geographic data</h3>
+      <ul>
+        <li>
+          <strong>Natural Earth.</strong>
+          <em>Admin 0 — Countries.</em>
+          Country boundary data used for the world map.
+          <a href="https://www.naturalearthdata.com/downloads/110m-cultural-vectors/110m-admin-0-countries/"
+             target="_blank" rel="noopener noreferrer">
+            Natural Earth — Country boundaries
+          </a>
+        </li>
+      </ul>
+
+      <h3>4. Visualisation libraries</h3>
+      <ul>
+        <li>
+          <strong>Vega.</strong>
+          Interactive visualisation grammar.
+          <a href="https://vega.github.io/vega/"
+             target="_blank" rel="noopener noreferrer">
+            https://vega.github.io/vega/
+          </a>
+        </li>
+        <li>
+          <strong>Vega-Lite.</strong>
+          Declarative grammar for statistical visualisation.
+          <a href="https://vega.github.io/vega-lite/"
+             target="_blank" rel="noopener noreferrer">
+            https://vega.github.io/vega-lite/
+          </a>
+        </li>
+        <li>
+          <strong>D3.js.</strong>
+          JavaScript library for data-driven documents and geographic
+          calculations.
+          <a href="https://d3js.org/"
+             target="_blank" rel="noopener noreferrer">
+            https://d3js.org/
+          </a>
+        </li>
+      </ul>
+
+      <h3>Methodology and limitations</h3>
+      <p>
+        Electricity generation is measured in terawatt-hours (TWh), while
+        generation shares are expressed as percentages. Absolute generation
+        and percentage share describe different things: a source's share may
+        decline even while its output increases.
+      </p>
+
+      <p>
+        Country comparisons depend on data availability, reporting periods
+        and the definitions used by the source dataset. Missing values
+        should not be interpreted as zero generation. Power-station
+        locations are approximate where stated, and the selected stations
+        do not represent a complete national inventory.
+      </p>
+
+      <p class="source-note">
+        Source links accessed 16 October 2026. Dataset coverage and
+        publication dates may change as providers update their data.
+        All charts should be interpreted using the year, unit and category
+        definitions displayed with each figure.
+      </p>
+    </section>
+
+
+  <div class="timebar" role="group" aria-label="Time machine controls">
+    <span class="timebar-title">TIME MACHINE</span>
+    <button id="play" type="button">▶ Play</button>
+    <label class="tb-year">Year <input id="yr-slider" type="range" min="2000" max="2024" step="1" value="2024"><output id="yr-out">2024</output></label>
+    <label class="tb-metric">Show <select id="metric"></select></label>
+  </div>
+
+  <footer>
+    <span>POWERING THE FUTURE</span>
+    <span>BY HADI · OCTOBER 2026 · DATA VISUALISATION II · FIT3179 · MONASH</span>
+  </footer>
+
+  <script src="extra.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
